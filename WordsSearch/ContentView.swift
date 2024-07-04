@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var selectedCells: [Cell] = []
     @State private var foundCells: Set<Cell> = []
     @State private var gestureDirection: Direction?
+    @State private var startCell: Cell?
 
     let gridSize = 8
     let cellSize: CGFloat = 40 // Ajusta este valor para cambiar el tamaño de las celdas
@@ -27,36 +28,39 @@ struct ContentView: View {
             GridView(grid: grid, selectedCells: $selectedCells, foundCells: $foundCells, cellSize: cellSize)
               //  .padding(8) // Adjust padding to align with gesture
                 .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            let col = Int((value.location.x - 16) / cellSize)
-                            let row = Int((value.location.y - 16) / cellSize)
-                            
-                            if row >= 0 && row < gridSize && col >= 0 && col < gridSize {
-                                let newCell = Cell(row: row, col: col)
-                                if !selectedCells.contains(newCell) {
-                                    if selectedCells.isEmpty {
-                                        selectedCells.append(newCell)
-                                    } else if let direction = gestureDirection {
-                                        if isValidNextCell(newCell, direction: direction) {
-                                            selectedCells.append(newCell)
+                                    DragGesture(minimumDistance: 0)
+                                        .onChanged { value in
+                                            let col = Int((value.location.x - 16) / cellSize)
+                                            let row = Int((value.location.y - 16) / cellSize)
+                                            
+                                            if row >= 0 && row < gridSize && col >= 0 && col < gridSize {
+                                                let newCell = Cell(row: row, col: col)
+                                                
+                                                if selectedCells.isEmpty {
+                                                    // Start the selection
+                                                    startCell = newCell
+                                                    selectedCells.append(newCell)
+                                                } else if let startCell = startCell {
+                                                    let newDirection = determineDirection(from: startCell, to: newCell)
+                                                    if newDirection != .invalid {
+                                                        gestureDirection = newDirection
+                                                        if isValidNextCell(newCell, direction: newDirection) {
+                                                            selectedCells.append(newCell)
+                                                        } else {
+                                                            // If direction changes, recalculate the line
+                                                            selectedCells = calculateLine(from: startCell, to: newCell, direction: newDirection)
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
-                                    } else {
-                                        let direction = determineDirection(from: selectedCells.last!, to: newCell)
-                                        if direction != .invalid {
-                                            gestureDirection = direction
-                                            selectedCells.append(newCell)
+                                        .onEnded { _ in
+                                            checkSelection()
+                                            selectedCells.removeAll()
+                                            gestureDirection = nil
+                                            startCell = nil
                                         }
-                                    }
-                                }
-                            }
-                        }
-                        .onEnded { _ in
-                            checkSelection()
-                            selectedCells.removeAll()
-                            gestureDirection = nil
-                        }
-                )
+                                )
 
             HStack {
                 WordsListView(words: words, foundWords: foundWords)
@@ -85,6 +89,35 @@ struct ContentView: View {
             }
         }
     }
+    
+    func calculateLine(from startCell: Cell, to endCell: Cell, direction: Direction) -> [Cell] {
+            var cells = [startCell]
+            var currentCell = startCell
+
+            while currentCell != endCell {
+                let nextRow: Int
+                let nextCol: Int
+
+                switch direction {
+                case .horizontal:
+                    nextRow = currentCell.row
+                    nextCol = currentCell.col + (endCell.col > startCell.col ? 1 : -1)
+                case .vertical:
+                    nextRow = currentCell.row + (endCell.row > startCell.row ? 1 : -1)
+                    nextCol = currentCell.col
+                case .diagonal:
+                    nextRow = currentCell.row + (endCell.row > startCell.row ? 1 : -1)
+                    nextCol = currentCell.col + (endCell.col > startCell.col ? 1 : -1)
+                case .invalid:
+                    return cells
+                }
+
+                currentCell = Cell(row: nextRow, col: nextCol)
+                cells.append(currentCell)
+            }
+
+            return cells
+        }
 
     func determineDirection(from startCell: Cell, to endCell: Cell) -> Direction {
         let rowDifference = abs(startCell.row - endCell.row)
