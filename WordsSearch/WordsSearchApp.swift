@@ -11,7 +11,8 @@ import SwiftUI
 struct WordsSearchApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+         //   ContentView()
+            HomeMenu()
         }
     }
 }
