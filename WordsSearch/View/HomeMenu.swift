@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeMenu: View {
+    @State private var pulsate = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -15,36 +17,74 @@ struct HomeMenu: View {
                                                startPoint: .topLeading,
                                                endPoint: .bottomTrailing)
                                     .edgesIgnoringSafeArea(.all)
-                
-                VStack(spacing: 10) {
-                    Text("Word Search Game")
-                                            .font(.largeTitle)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.white)
-                                            .padding(.top,100)
-                                            Spacer()
+                VStack{
+                   // Spacer()
+                    VStack(alignment: .center) {
+                     
+                        Image("word")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 180, height: 180)
+                          // .padding(.top, 10)
+                        
+                        Image("letter")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 250, height: 250)
+                            .offset(y: -20)
+                        
+                }
+                                           Spacer()
+                    VStack(spacing: 20){
+                        NavigationLink {
+                            ContentView()
+                                .navigationTitle("Word Search")
+                                .navigationBarTitleDisplayMode(.inline)
+                        } label: {
+                            Text("Daily Challenge")
+                                .yellowTextStyle()
+                                
+                        }
+                        
+                        NavigationLink {
+                            EmptyView()
+                                .navigationTitle("Word Search")
+                                .navigationBarTitleDisplayMode(.inline)
+                        } label: {
+                            Text("Puzzle")
+                                .yellowTextStyle()
+                        }
+                    }
+                    
+                    Spacer()
+                    
+//                    Button {
+//                        
+//                    } label: {
+//                        Text("Daily Puzzle")
+//                    }
+//                    .buttonStyle(YellowButtonStyle())
+//                    
+//                    Button {
+//                        
+//                    } label: {
+//                        Text("Settings")
+//                    }
+//                    .buttonStyle(YellowButtonStyle())
+//                    .padding(.bottom,100)
+                }
+            }
+            .toolbar{
+                ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        ContentView()
+                        EmptyView()
                     } label: {
-                        Text("Start Game")
-                            .yellowTextStyle()
+                        Image(systemName: "gear")
+                            .font(.title3)
+                            .foregroundColor(.primary)
                     }
 
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Daily Puzzle")
-                    }
-                    .buttonStyle(YellowButtonStyle())
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("Settings")
-                    }
-                    .buttonStyle(YellowButtonStyle())
-                    .padding(.bottom,100)
+
                 }
             }
         }
