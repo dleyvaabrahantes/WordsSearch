@@ -1,0 +1,12 @@
+{
+  "category": "Sports",
+  "words": [
+    "Soccer", "Basketball", "Tennis", "Cricket", "Baseball", "Golf", "Hockey", "Rugby", "Volleyball", "Swimming",
+    "Cycling", "Running", "Boxing", "Wrestling", "Badminton", "Table Tennis", "Skiing", "Snowboarding", "Surfing", "Skateboarding",
+    "Gymnastics", "Archery", "Rowing", "Fencing", "Judo", "Karate", "Taekwondo", "Weightlifting", "Climbing", "Diving",
+    "Equestrian", "Handball", "Field Hockey", "Ice Hockey", "Lacrosse", "Netball", "Polo", "Racquetball", "Sailing", "Shooting",
+    "Softball", "Squash", "Triathlon", "Water Polo", "Windsurfing", "Bobsleigh", "Canoeing", "Curling", "Figure Skating", "Freestyle Skiing",
+    "Luge", "Skeleton", "Biathlon","Snowshoeing",
+    "Paragliding", "Kitesurfing", "Motorsport"
+]
+}

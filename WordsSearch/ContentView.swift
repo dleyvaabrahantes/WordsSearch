@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel: WordSearchViewModel = .init()
     
-    
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: WordSearchViewModel
     @State private var gestureDirection: Direction?
     @State private var startCell: Cell?
-    
+    var categoryModel: CategoryModel?
     let rows = 12
     let columns = 9
     // let gridSize = 8
@@ -32,7 +32,7 @@ struct ContentView: View {
                 HStack {
                     HStack{
                         Text("00:00")
-                
+                        
                         Image(systemName: "deskclock")
                     }
                     .foregroundColor(.gray)
@@ -52,7 +52,7 @@ struct ContentView: View {
                     
                     HStack{
                         Text("00:00")
-                
+                        
                         Image(systemName: "deskclock")
                     }
                     .opacity(0)
@@ -105,8 +105,25 @@ struct ContentView: View {
                 
                 Spacer()
             }
-            .onAppear(perform: generateGrid)
+            .onAppear{
+                if let category = categoryModel {
+                    viewModel.updateWords(for: category.nameJson)
+                    generateGrid()
+                    
+                }
+            }
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }, label: {
+            HStack {
+                Image(systemName: "arrow.left")
+                Text("Back")
+            }
+        })
+        )
     }
     
     func generateGrid() {
@@ -236,4 +253,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(WordSearchViewModel())
 }

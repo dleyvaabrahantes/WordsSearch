@@ -1,0 +1,15 @@
+{
+  "category": "Colors",
+  "words": [
+    "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink", "Brown", "Black", "White",
+    "Gray", "Violet", "Indigo", "Cyan", "Magenta", "Turquoise", "Teal", "Lime", "Maroon", "Navy",
+    "Olive", "Peach", "Salmon", "Coral", "Aqua", "Gold", "Silver", "Bronze", "Lavender", "Ivory",
+    "Beige", "Mint", "Mustard", "Charcoal", "Crimson", "Fuchsia", "Khaki", "Lilac", "Mauve", "Amber",
+    "Auburn", "Azure", "Burgundy", "Champagne", "Chocolate", "Copper", "Emerald", "Jade", "Lemon", "Lilac",
+    "Moss", "Ochre", "Onyx", "Pearl", "Periwinkle", "Ruby", "Sapphire", "Scarlet", "Sienna", "Slate",
+    "Tan", "Topaz", "Tangerine", "Teal", "Wheat", "Chestnut", "Amethyst", "Blush", "Denim", "Eggplant",
+    "Ginger", "Honey", "Ice", "Jet", "Lava", "Lichen", "Obsidian", "Plum", "Quartz", "Rose",
+    "Sand", "Shadow", "Smoke", "Snow", "Steel", "Straw", "Sunset", "Vanilla", "Wine", "Zinc",
+    "Berry", "Carmine", "Claret", "Cobalt", "Ecru", "Forest", "Granite", "Graphite", "Lapis", "Seafoam"
+  ]
+}

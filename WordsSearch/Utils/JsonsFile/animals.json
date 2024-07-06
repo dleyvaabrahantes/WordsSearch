@@ -1,0 +1,15 @@
+{
+  "category": "Animals",
+  "words": [
+    "Lion", "Elephant", "Tiger", "Dog", "Cat", "Dolphin", "Eagle", "Horse", "Penguin", "Shark",
+    "Giraffe", "Bear", "Wolf", "Fox", "Rabbit", "Deer", "Monkey", "Zebra", "Kangaroo", "Leopard",
+    "Hippopotamus", "Crocodile", "Koala", "Panda", "Whale", "Squirrel", "Rhinoceros", "Bison", "Buffalo", "Chameleon",
+    "Cheetah", "Chimpanzee", "Crab", "Donkey", "Duck", "Eel", "Falcon", "Flamingo", "Frog", "Goat",
+    "Goldfish", "Goose", "Hamster", "Hawk", "Hedgehog", "Hummingbird", "Iguana", "Jellyfish", "Lemur", "Lizard",
+    "Llama", "Lobster", "Meerkat", "Mole", "Mongoose", "Moose", "Narwhal", "Ostrich", "Otter", "Owl",
+    "Parrot", "Peacock", "Pelican", "Porcupine", "Quail", "Raccoon", "Reindeer", "Salmon", "Seahorse", "Seal",
+    "Skunk", "Sloth", "Snail", "Snake", "Sparrow", "Squid", "Starfish", "Stork", "Swan", "Tapir",
+    "Tortoise", "Toucan", "Tuna", "Turkey", "Turtle", "Vulture", "Walrus", "Weasel", "Woodpecker", "Yak",
+    "Zebu", "Antelope", "Armadillo", "Baboon", "Badger", "Bat", "Beaver", "Bee", "Beetle", "Boar"
+  ]
+}

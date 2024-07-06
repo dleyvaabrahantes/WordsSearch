@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct HomeMenu: View {
     @State private var pulsate = false
-    
+    @StateObject var viewModel: WordSearchViewModel = .init()
     var body: some View {
         NavigationStack {
             ZStack {
@@ -37,9 +38,12 @@ struct HomeMenu: View {
                                            Spacer()
                     VStack(spacing: 20){
                         NavigationLink {
-                            ContentView()
-                                .navigationTitle("Word Search")
-                                .navigationBarTitleDisplayMode(.inline)
+                            
+                                ContentView()
+                                .environmentObject(viewModel)
+                                    .navigationTitle("Word Search")
+                                    .navigationBarTitleDisplayMode(.inline)
+                            
                         } label: {
                             Text("Daily Challenge")
                                 .yellowTextStyle()
@@ -47,8 +51,9 @@ struct HomeMenu: View {
                         }
                         
                         NavigationLink {
-                            EmptyView()
-                                .navigationTitle("Word Search")
+                           ListCategoryView()
+                                .environmentObject(viewModel)
+                                .navigationTitle("Select Category")
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
                             Text("Puzzle")
