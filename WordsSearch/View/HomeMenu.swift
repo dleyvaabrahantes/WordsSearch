@@ -39,7 +39,7 @@ struct HomeMenu: View {
                     VStack(spacing: 20){
                         NavigationLink {
                             
-                                ContentView()
+                                ContentView(categoryModel: CategoryModel(name: "Daily", level: .easy, nameJson: "all"))
                                 .environmentObject(viewModel)
                                     .navigationTitle("Word Search")
                                     .navigationBarTitleDisplayMode(.inline)

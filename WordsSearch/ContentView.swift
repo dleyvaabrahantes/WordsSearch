@@ -14,10 +14,15 @@ struct ContentView: View {
     @State private var gestureDirection: Direction?
     @State private var startCell: Cell?
     var categoryModel: CategoryModel?
-    let rows = 12
-    let columns = 9
+    let rows = 11
+    let columns = 8
     // let gridSize = 8
+    @State private var timeRemaining = 600 // 10 minutes in seconds
+        @State private var showAlert = false
+        @State private var timer: Timer? = nil
     let cellSize: CGFloat = 40 // Ajusta este valor para cambiar el tamaño de las celdas
+    
+   
     
     var body: some View {
         ZStack {
@@ -31,10 +36,11 @@ struct ContentView: View {
                 //                    .padding(.top)
                 HStack {
                     HStack{
-                        Text("00:00")
+                        Text("\(formattedTime)")
                         
                         Image(systemName: "deskclock")
                     }
+                    .opacity(0)
                     .foregroundColor(.gray)
                     .padding(.leading)
                     Capsule()
@@ -51,11 +57,10 @@ struct ContentView: View {
                         .animation(.easeInOut)
                     
                     HStack{
-                        Text("00:00")
+                        Text(formattedTime)
                         
                         Image(systemName: "deskclock")
                     }
-                    .opacity(0)
                     .foregroundColor(.gray)
                     .padding(.trailing)
                 }
@@ -104,6 +109,7 @@ struct ContentView: View {
                 }
                 
                 Spacer()
+               
             }
             .onAppear{
                 if let category = categoryModel {
@@ -111,11 +117,37 @@ struct ContentView: View {
                     generateGrid()
                     
                 }
+                startTimer()
+            }
+            .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Time's Up!"), message: Text("The 10 minutes are over."), dismissButton: .default(Text("OK")))
+                    }
+            .alert(isPresented: $viewModel.gameCompleted) {
+                Alert(
+                    title: Text("Complete"),
+                    message: Text("Congratulations! You have completed the game. What would you like to do next?"),
+                    primaryButton: .default(Text("Next")) {
+                        // Lógica para iniciar el siguiente juego
+                        viewModel.cleanSelected()
+                        if let category = categoryModel {
+                            viewModel.updateWords(for: category.nameJson)
+                            generateGrid()
+                            timeRemaining = 600
+                            
+                        }
+                        viewModel.gameCompleted = false
+                    },
+                    secondaryButton: .cancel(Text("Exit")) {
+                        viewModel.cleanSelected()
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
+                )
             }
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
+            viewModel.cleanSelected()
             self.presentationMode.wrappedValue.dismiss()
         }, label: {
             HStack {
@@ -126,23 +158,44 @@ struct ContentView: View {
         )
     }
     
+    var formattedTime: String {
+           let minutes = timeRemaining / 60
+           let seconds = timeRemaining % 60
+           return String(format: "%02d:%02d", minutes, seconds)
+       }
+    
     func generateGrid() {
-        viewModel.grid = Array(repeating: Array(repeating: "", count: columns), count: rows)
-        
-        // Insert words into grid
-        for word in viewModel.words {
-            placeWordInGrid(word)
-        }
-        
-        // Fill the remaining cells with random letters
-        for row in 0..<rows {
-            for col in 0..<columns {
-                if viewModel.grid[row][col] == "" {
-                    viewModel.grid[row][col] = String(UnicodeScalar(Int.random(in: 65...90))!)
+            viewModel.grid = Array(repeating: Array(repeating: "", count: columns), count: rows)
+            
+            // Insertar palabras en la cuadrícula
+            for word in viewModel.words {
+                if !placeWordInGrid(word) {
+                    print("No se pudo colocar la palabra: \(word)")
+                    viewModel.words.removeAll{$0 == word}
+                }
+            }
+            
+            // Rellenar las celdas restantes con letras aleatorias
+            for row in 0..<rows {
+                for col in 0..<columns {
+                    if viewModel.grid[row][col] == "" {
+                        viewModel.grid[row][col] = String(UnicodeScalar(Int.random(in: 65...90))!)
+                    }
                 }
             }
         }
-    }
+    
+    func startTimer() {
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                if timeRemaining > 0 {
+                    timeRemaining -= 1
+                } else {
+                    timer?.invalidate()
+                    showAlert = true
+                }
+            }
+        }
     
     func calculateLine(from startCell: Cell, to endCell: Cell, direction: Direction) -> [Cell] {
         var cells = [startCell]
@@ -187,22 +240,29 @@ struct ContentView: View {
         }
     }
     
-    func placeWordInGrid(_ word: String) {
-        var placed = false
-        while !placed {
-            let startRow = Int.random(in: 0..<rows)
-            let startCol = Int.random(in: 0..<columns)
-            let direction = Int.random(in: 0..<4)
-            
-            if canPlaceWord(word, at: (startRow, startCol), direction: direction) {
-                for (index, char) in word.enumerated() {
-                    let (row, col) = getNextPosition(startRow, startCol, direction, index)
-                    viewModel.grid[row][col] = String(char)
-                }
-                placed = true
-            }
-        }
-    }
+    @discardableResult
+       func placeWordInGrid(_ word: String) -> Bool {
+           var placed = false
+           var attempts = 0
+           let maxAttempts = 100
+           
+           while !placed && attempts < maxAttempts {
+               let startRow = Int.random(in: 0..<rows)
+               let startCol = Int.random(in: 0..<columns)
+               let direction = Int.random(in: 0..<4)
+               
+               if canPlaceWord(word, at: (startRow, startCol), direction: direction) {
+                   for (index, char) in word.enumerated() {
+                       let (row, col) = getNextPosition(startRow, startCol, direction, index)
+                       viewModel.grid[row][col] = String(char)
+                   }
+                   placed = true
+               }
+               attempts += 1
+           }
+           
+           return placed
+       }
     
     func canPlaceWord(_ word: String, at start: (Int, Int), direction: Int) -> Bool {
         let (startRow, startCol) = start
@@ -252,6 +312,5 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
-        .environmentObject(WordSearchViewModel())
+    HomeMenu()
 }
