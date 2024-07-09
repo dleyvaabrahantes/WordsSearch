@@ -12,15 +12,26 @@ struct CategoryRow: View {
     var isPremium: Bool
     var body: some View {
         HStack{
-            Circle()
-                .foregroundStyle(Color(uiColor: .lightGray))
-                .frame(width: 60, height: 60)
+            ZStack {
+                            Circle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 60, height: 60)
+                                .shadow(color: .gray.opacity(0.5), radius: 5, x: 0, y: 5)
+                            
+                            Text(String(category.name.prefix(1)))
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .bold()
+                        }
             VStack(alignment: .leading){
                 Text(category.name)
-                    .font(.title)
-                    .foregroundStyle(.gray)
-                Text(category.level.level)
-                    .foregroundStyle(.gray)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary)
+                                
+                                Text(category.level.level)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
                     
             }
             .padding(.leading)
@@ -43,4 +54,5 @@ struct CategoryRow: View {
 
 #Preview {
     ListCategoryView()
+        .environmentObject(WordSearchViewModel())
 }

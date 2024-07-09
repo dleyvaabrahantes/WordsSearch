@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  WordsSearch
+
+  Created by David on 7/8/24.
+  
+*/
+"rate" = "Rate the app";
+"comments" = "Leave a comment";
+"terms" = "Terms of Use";
+"privacy" = "Privacy policy";
+"commentsheader" = "Comments";
+"opinion" = "Your opinion is very important";
+"follow" = "Follow";
+"social" = "Social Media";
+"share" = "Share with your friends";
+"general" = "General";
+"style" = "Theme";
+"notifications" = "Notification";
+
+"settings" = "Settings";
+"home" = "Home";
+"homeTitle" = "Dashboard";
+
+"title" = "List Title";
+"nameList" = "Name List!";
+"color" = "List Color";
+"reminder" = "Remainder";
+"notification" = "Just Notification";
+"date" = "Reminder Date";
+
+"lock" = "Lock";
+"unlock" = "Unlock";
+
+"edit" = "Edit List";
+"print" = "Print";
+"delete" = "Delete List";
+
+"active" = "Active";
+
+"completed" = "Completed";
+"hide" = "Hide Completed";
+"show" = "Show Completed";
+
+"back" = "Back";
+"skip" = "Skip";
+"done" = "Done";
+"next" = "Next";
+
+"title1" = "Welcome to Word Explorer Puzzle!";
+"title2" = "How to Play";
+"title3" = "Daily Challenges and Categories";
+
+"description1" = "Discover the ultimate word search experience and sharpen your mind with fun and challenging puzzles";
+"description2" = "Simply swipe to connect letters and find hidden words in the grid. ";
+"description3" = "Enjoy new puzzles every day with our Daily Challenges. Explore various categories and improve your vocabulary with exciting themes.";

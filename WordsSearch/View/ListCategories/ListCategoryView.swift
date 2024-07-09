@@ -26,7 +26,7 @@ struct ListCategoryView: View {
                                 .navigationTitle("Word Search")
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
-                            CategoryRow(category: item, isPremium: index == 0)
+                            CategoryRow(category: item, isPremium: true)
                         }
                         
                     }

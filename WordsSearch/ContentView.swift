@@ -122,27 +122,43 @@ struct ContentView: View {
             .alert(isPresented: $showAlert) {
                         Alert(title: Text("Time's Up!"), message: Text("The 10 minutes are over."), dismissButton: .default(Text("OK")))
                     }
-            .alert(isPresented: $viewModel.gameCompleted) {
-                Alert(
-                    title: Text("Complete"),
-                    message: Text("Congratulations! You have completed the game. What would you like to do next?"),
-                    primaryButton: .default(Text("Next")) {
-                        // Lógica para iniciar el siguiente juego
-                        viewModel.cleanSelected()
-                        if let category = categoryModel {
-                            viewModel.updateWords(for: category.nameJson)
-                            generateGrid()
-                            timeRemaining = 600
-                            
+            .fullScreenCover(isPresented: $viewModel.gameCompleted) {
+                            GameCompletedView(onNext: {
+                                viewModel.cleanSelected()
+                                if let category = categoryModel {
+                                    viewModel.updateWords(for: category.nameJson)
+                                    generateGrid()
+                                    timeRemaining = 600
+                                }
+                                viewModel.gameCompleted = false
+                               // showGameCompleted = false
+                            }, onExit: {
+                                viewModel.cleanSelected()
+                                self.presentationMode.wrappedValue.dismiss()
+                            })
+                            .background(BackgroundClearView())
                         }
-                        viewModel.gameCompleted = false
-                    },
-                    secondaryButton: .cancel(Text("Exit")) {
-                        viewModel.cleanSelected()
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
-                )
-            }
+//            .alert(isPresented: $viewModel.gameCompleted) {
+//                Alert(
+//                    title: Text("Complete"),
+//                    message: Text("Congratulations! You have completed the game. What would you like to do next?"),
+//                    primaryButton: .default(Text("Next")) {
+//                        // Lógica para iniciar el siguiente juego
+//                        viewModel.cleanSelected()
+//                        if let category = categoryModel {
+//                            viewModel.updateWords(for: category.nameJson)
+//                            generateGrid()
+//                            timeRemaining = 600
+//                            
+//                        }
+//                        viewModel.gameCompleted = false
+//                    },
+//                    secondaryButton: .cancel(Text("Exit")) {
+//                        viewModel.cleanSelected()
+//                        self.presentationMode.wrappedValue.dismiss()
+//                    }
+//                )
+//            }
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
@@ -306,7 +322,18 @@ struct ContentView: View {
     
 }
 
+// function for background clear
+struct BackgroundClearView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            view.superview?.superview?.backgroundColor = .clear
+        }
+        return view
+    }
 
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}
 
 
 

@@ -9,10 +9,17 @@ import SwiftUI
 
 @main
 struct WordsSearchApp: App {
+    @AppStorage("currentPage") var currentIndex = 0
+    
+    
     var body: some Scene {
         WindowGroup {
          //   ContentView()
-            HomeMenu()
+            if currentIndex > 2 {
+                HomeMenu()
+            }else {
+                OnBoardingScreen()
+            }
         }
     }
 }

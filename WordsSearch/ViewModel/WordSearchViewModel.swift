@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 
 class WordSearchViewModel: ObservableObject {
-    var listCategories: [CategoryModel] = [              CategoryModel(name: "Daily", level: .easy, nameJson: "all"),
+    var listCategories: [CategoryModel] = [              CategoryModel(name: "Daily", level: .easy, nameJson: "daily"),
                                                          CategoryModel(name: "Animals", level: .easy, nameJson: "animals"),
                                                          CategoryModel(name: "Sports", level: .medium, nameJson: "sports"),
                                                          CategoryModel(name: "Countries", level: .medium, nameJson: "countries"),
@@ -24,6 +24,10 @@ class WordSearchViewModel: ObservableObject {
     @Published var foundCells: Set<Cell> = []
     
     @Published var gameCompleted = false
+    
+    @Published var dailyGameLimitReached = false
+        
+        private let dailyGameLimit = 3
     
     func playSound() {
             guard let url = Bundle.main.url(forResource: "success", withExtension: "mp3") else { return }
@@ -52,11 +56,8 @@ class WordSearchViewModel: ObservableObject {
     }
     
     func updateWords(for category: String) {
-        if category == "all"{
-            loadDailyWords()
-        }else{
             words = loadRandomWords(for: category) ?? []
-        }
+        
     }
 
     func loadRandomWords(for category: String) -> [String]? {
@@ -96,7 +97,7 @@ class WordSearchViewModel: ObservableObject {
                 let group = DispatchGroup()
                 
                 for category in self?.listCategories ?? [] {
-                    guard category.name.lowercased() != "daily" else { continue }
+                    guard category.nameJson.lowercased() != "all" else { continue }
                     group.enter()
                     self?.loadRandomWords(for: category.nameJson) { words in
                         if let words = words {
@@ -135,5 +136,37 @@ class WordSearchViewModel: ObservableObject {
             }
         }
 
+    private func canPlayDailyGame() -> Bool {
+            let currentDate = getCurrentDate()
+            let lastPlayDate = UserDefaults.standard.string(forKey: "lastPlayDate") ?? ""
+            let dailyGameCount = UserDefaults.standard.integer(forKey: "dailyGameCount")
+            
+            if currentDate != lastPlayDate {
+                resetDailyGameCount()
+                return true
+            }
+            
+            return dailyGameCount < dailyGameLimit
+        }
+        
+        private func incrementDailyGameCount() {
+            let currentDate = getCurrentDate()
+            UserDefaults.standard.set(currentDate, forKey: "lastPlayDate")
+            var dailyGameCount = UserDefaults.standard.integer(forKey: "dailyGameCount")
+            dailyGameCount += 1
+            UserDefaults.standard.set(dailyGameCount, forKey: "dailyGameCount")
+        }
+        
+        private func resetDailyGameCount() {
+            let currentDate = getCurrentDate()
+            UserDefaults.standard.set(currentDate, forKey: "lastPlayDate")
+            UserDefaults.standard.set(0, forKey: "dailyGameCount")
+        }
+        
+        private func getCurrentDate() -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter.string(from: Date())
+        }
 
 }

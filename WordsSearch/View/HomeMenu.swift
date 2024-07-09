@@ -7,10 +7,29 @@
 
 import SwiftUI
 import UIKit
+import StoreKit
 
 struct HomeMenu: View {
     @State private var pulsate = false
     @StateObject var viewModel: WordSearchViewModel = .init()
+    
+    @Environment(\.requestReview) var requestReview
+    
+    private var selectedScheme: ColorScheme? {
+        guard let theme = AppareanceMode(rawValue: systemTheme) else {return nil}
+        switch theme {
+            
+        case .dark:
+            return .dark
+        case .light:
+            return .light
+        case .system:
+            return nil
+        }
+    }
+    
+    @AppStorage("systemTheme") private var systemTheme: Int = AppareanceMode.allCases.first!.rawValue
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -39,7 +58,7 @@ struct HomeMenu: View {
                     VStack(spacing: 20){
                         NavigationLink {
                             
-                                ContentView(categoryModel: CategoryModel(name: "Daily", level: .easy, nameJson: "all"))
+                                ContentView(categoryModel: CategoryModel(name: "Daily", level: .easy, nameJson: "daily"))
                                 .environmentObject(viewModel)
                                     .navigationTitle("Word Search")
                                     .navigationBarTitleDisplayMode(.inline)
@@ -79,10 +98,14 @@ struct HomeMenu: View {
 //                    .padding(.bottom,100)
                 }
             }
+            .onAppear{
+                AppReviewRequest.requestReviewIfNeeded()
+            }
+            .preferredColorScheme(selectedScheme)
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        EmptyView()
+                        SettingsView()
                     } label: {
                         Image(systemName: "gear")
                             .font(.title3)

@@ -47,19 +47,20 @@ struct YellowButtonStyle: ButtonStyle {
 
 
 struct YellowTextStyle: ViewModifier {
-
+    var color: Color
+    var width: CGFloat
     func body(content: Content) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 14)
-                .frame(width: 155, height: 67)
+                .frame(width: width, height: 67)
                 .foregroundColor(.black)
                 .offset(y: 3)
             content
                 .bold()
                 .offset(y:  0)
                 .foregroundColor(.black)
-                .frame(width: 150, height: 60)
-                .background(Color.yellow)
+                .frame(width: width - 5, height: 60)
+                .background(color)
                 .cornerRadius(12)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
@@ -73,7 +74,7 @@ struct YellowTextStyle: ViewModifier {
 }
 
 extension View {
-    func yellowTextStyle() -> some View {
-        self.modifier(YellowTextStyle())
+    func yellowTextStyle(color: Color = .yellow, width: CGFloat = 155 ) -> some View {
+        self.modifier(YellowTextStyle(color: color, width: width))
     }
 }
