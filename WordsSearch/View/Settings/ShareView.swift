@@ -10,8 +10,8 @@ import SwiftUI
 struct ShareView: View {
     @Binding var showShareView: Bool
     @State var copyLink = false
-    var link = "https://apps.apple.com/us/app/smart-list-shopping-tasks/id6503365608"
-    var link2 = "https://apps.apple.com/us/app/smart-list-shopping-tasks/id6503365608"
+    var link = "https://apps.apple.com/us/app/word-explorer-puzzle/id6514323759"
+    var link2 = "https://apps.apple.com/us/app/word-explorer-puzzle/id6514323759"
     var body: some View {
         VStack{
             Button(action: {

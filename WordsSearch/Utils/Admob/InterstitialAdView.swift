@@ -77,7 +77,7 @@ enum AdUnit {
     var unitID: String {
         switch self {
         case .Interstitial:
-            return "/"
+            return "ca-app-pub-2893640319240546/2769528050"
         case .InterstitialTest:
             return "ca-app-pub-3940256099942544/4411468910"
         }

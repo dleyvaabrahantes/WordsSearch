@@ -47,14 +47,14 @@ struct SettingsView: View {
                         }
                       //      .foregroundColor(Color("AboutLetter"))
     //
-//                        HStack {
-//                            Image(systemName: "square.and.arrow.up.fill")
-//                            Button {
-//                                showShare.toggle()
-//                            } label: {
-//                                Text(LocalizedStringKey("share"))
-//                        }
-//                        }
+                        HStack {
+                            Image(systemName: "square.and.arrow.up.fill")
+                            Button {
+                                showShare.toggle()
+                            } label: {
+                                Text(LocalizedStringKey("share"))
+                        }
+                        }
                         HStack {
                             Image(systemName: "envelope.fill")
                             Button {

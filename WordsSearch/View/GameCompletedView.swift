@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameCompletedView: View {
+    
     var onNext: () -> Void
         var onExit: () -> Void
         var progress = 0.5
@@ -16,12 +17,13 @@ struct GameCompletedView: View {
                     Text("Congratulations!")
                         .font(.largeTitle)
                         .padding()
+                        .foregroundStyle(.black)
 
                     Text("You have completed the game. What would you like to do next?")
                         .font(.headline)
                         .multilineTextAlignment(.center)
                         .padding()
-                    
+                        .foregroundStyle(.black)
 //                    ZStack(alignment: .leading){
 //                        Rectangle()
 //                            .foregroundColor(Color.gray.opacity(0.3))

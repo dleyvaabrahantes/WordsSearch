@@ -21,8 +21,8 @@ struct ContentView: View {
         @State private var showAlert = false
         @State private var timer: Timer? = nil
     let cellSize: CGFloat = 40 // Ajusta este valor para cambiar el tamaño de las celdas
-    
-   
+    private let adLoader = InterstitialAdLoader(adUnit: .InterstitialTest)
+    @AppStorage("showAd") var showAd = 0
     
     var body: some View {
         ZStack {
@@ -108,6 +108,7 @@ struct ContentView: View {
                     Spacer()
                 }
                 
+                
                 Spacer()
                
             }
@@ -116,6 +117,12 @@ struct ContentView: View {
                     viewModel.updateWords(for: category.nameJson)
                     generateGrid()
                     
+                }
+                if showAd > 2 {
+                 //   adLoader.showAd()
+                    showAd = 0
+                }else {
+                    showAd += 1
                 }
                 startTimer()
             }
@@ -126,6 +133,7 @@ struct ContentView: View {
                             GameCompletedView(onNext: {
                                 viewModel.cleanSelected()
                                 if let category = categoryModel {
+                                    
                                     viewModel.updateWords(for: category.nameJson)
                                     generateGrid()
                                     timeRemaining = 600
@@ -136,6 +144,9 @@ struct ContentView: View {
                                 viewModel.cleanSelected()
                                 self.presentationMode.wrappedValue.dismiss()
                             })
+                            .onAppear{
+                                
+                            }
                             .background(BackgroundClearView())
                         }
 //            .alert(isPresented: $viewModel.gameCompleted) {

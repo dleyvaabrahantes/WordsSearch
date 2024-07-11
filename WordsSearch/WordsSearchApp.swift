@@ -13,6 +13,7 @@ struct WordsSearchApp: App {
     
     
     var body: some Scene {
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
         WindowGroup {
          //   ContentView()
             if currentIndex > 2 {
