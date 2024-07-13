@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 class WordSearchViewModel: ObservableObject {
     var listCategories: [CategoryModel] = [              CategoryModel(name: "Daily", level: .easy, nameJson: "daily"),
@@ -41,6 +42,7 @@ class WordSearchViewModel: ObservableObject {
         if words.contains(selectedWord) {
             foundWords.insert(selectedWord)
             foundCells.formUnion(selectedCells)
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred() 
             playSound()
         }
         

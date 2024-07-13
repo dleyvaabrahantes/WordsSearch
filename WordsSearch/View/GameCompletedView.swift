@@ -8,18 +8,20 @@
 import SwiftUI
 
 struct GameCompletedView: View {
+    var title: String
+    var description: String
     
     var onNext: () -> Void
         var onExit: () -> Void
         var progress = 0.5
         var body: some View {
                 VStack(spacing: 20) {
-                    Text("Congratulations!")
+                    Text(title)
                         .font(.largeTitle)
                         .padding()
                         .foregroundStyle(.black)
 
-                    Text("You have completed the game. What would you like to do next?")
+                    Text(description)
                         .font(.headline)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -65,6 +67,7 @@ struct GameCompletedView: View {
                         
                     }
                 }
+            
                 .padding()
                 .background(.white)
                 .cornerRadius(20)
@@ -74,5 +77,5 @@ struct GameCompletedView: View {
 }
 
 #Preview {
-    GameCompletedView(onNext: {}, onExit: {})
+    GameCompletedView(title: "Congratulations!", description: "You have completed the game. What would you like to do next?", onNext: {}, onExit: {})
 }

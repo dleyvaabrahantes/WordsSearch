@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 struct ContentView: View {
     
@@ -21,8 +22,10 @@ struct ContentView: View {
         @State private var showAlert = false
         @State private var timer: Timer? = nil
     let cellSize: CGFloat = 40 // Ajusta este valor para cambiar el tamaño de las celdas
-    private let adLoader = InterstitialAdLoader(adUnit: .InterstitialTest)
+   // private let adLoader = InterstitialAdLoader(adUnit: .InterstitialTest)
     @AppStorage("showAd") var showAd = 0
+    
+    
     
     var body: some View {
         ZStack {
@@ -108,6 +111,7 @@ struct ContentView: View {
                     Spacer()
                 }
                 
+               
                 
                 Spacer()
                
@@ -129,26 +133,31 @@ struct ContentView: View {
             .alert(isPresented: $showAlert) {
                         Alert(title: Text("Time's Up!"), message: Text("The 10 minutes are over."), dismissButton: .default(Text("OK")))
                     }
+            .displayConfetti(isActive: $viewModel.gameCompleted)
             .fullScreenCover(isPresented: $viewModel.gameCompleted) {
-                            GameCompletedView(onNext: {
+                GameCompletedView(title: "Congratulations!" , description: "You have completed the game. What would you like to do next?" ,onNext: {
                                 viewModel.cleanSelected()
                                 if let category = categoryModel {
                                     
                                     viewModel.updateWords(for: category.nameJson)
                                     generateGrid()
                                     timeRemaining = 600
+                                    startTimer()
                                 }
                                 viewModel.gameCompleted = false
                                // showGameCompleted = false
                             }, onExit: {
                                 viewModel.cleanSelected()
+                                viewModel.gameCompleted = false
                                 self.presentationMode.wrappedValue.dismiss()
                             })
+                            
                             .onAppear{
-                                
+                                timer?.invalidate()
                             }
                             .background(BackgroundClearView())
                         }
+            
 //            .alert(isPresented: $viewModel.gameCompleted) {
 //                Alert(
 //                    title: Text("Complete"),
@@ -329,6 +338,8 @@ struct ContentView: View {
             return false
         }
     }
+    
+    
     
     
 }
