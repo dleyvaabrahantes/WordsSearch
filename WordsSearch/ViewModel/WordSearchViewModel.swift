@@ -48,6 +48,7 @@ class WordSearchViewModel: ObservableObject {
         
         if foundWords.count == words.count {
                 gameCompleted = true
+           
             }
     }
     
