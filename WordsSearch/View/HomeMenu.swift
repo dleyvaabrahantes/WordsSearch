@@ -13,7 +13,7 @@ import GoogleMobileAds
 struct HomeMenu: View {
     @State private var pulsate = false
     @StateObject var viewModel: WordSearchViewModel = .init()
-    
+    @AppStorage("premiumUser") var premiumUser: Bool = false
     @Environment(\.requestReview) var requestReview
     
     private var selectedScheme: ColorScheme? {
@@ -30,7 +30,7 @@ struct HomeMenu: View {
     }
     
     @AppStorage("systemTheme") private var systemTheme: Int = AppareanceMode.allCases.first!.rawValue
-    let adUnitId: AdUnitBanner = .banner
+    let adUnitId: AdUnitBanner = .bannerTest
     @State var height: CGFloat = 50 //Height of ad
     @State var width: CGFloat = 320 //Width of ad
     @State var adPosition: AdPosition = .bottom
@@ -69,7 +69,7 @@ struct HomeMenu: View {
                                     .navigationBarTitleDisplayMode(.inline)
                             
                         } label: {
-                            Text("Daily Challenge")
+                            Text(LocalizedStringKey("daily"))
                                 .yellowTextStyle()
                                 
                         }
@@ -77,7 +77,7 @@ struct HomeMenu: View {
                         NavigationLink {
                            ListCategoryView()
                                 .environmentObject(viewModel)
-                                .navigationTitle("Select Category")
+                                .navigationTitle(LocalizedStringKey("category"))
                                 .navigationBarTitleDisplayMode(.inline)
                         } label: {
                             Text("Puzzle")
@@ -95,19 +95,20 @@ struct HomeMenu: View {
                         }
                     }
                     
-                    BannerAd(adUnitId: adUnitId)
-                    .frame(width: width, height: height, alignment: .center)
-                    .padding(.top)
-                    //.offset(y: 50)
-                    .onAppear {
-                        //Call this in .onAppear() b/c need to load the initial frame size
-                        //.onReceive() will not be called on initial load
-                    setFrame()
-                }
-                    if adPosition == .top {
-                        Spacer() //Pushes ad to top
+                    if !premiumUser {
+                        BannerAd(adUnitId: adUnitId)
+                            .frame(width: width, height: height, alignment: .center)
+                            .padding(.top)
+                        //.offset(y: 50)
+                            .onAppear {
+                                //Call this in .onAppear() b/c need to load the initial frame size
+                                //.onReceive() will not be called on initial load
+                                setFrame()
+                            }
+                        if adPosition == .top {
+                            Spacer() //Pushes ad to top
+                        }
                     }
-                    
                     Spacer()
                     
 //                    Button {
@@ -127,6 +128,7 @@ struct HomeMenu: View {
                 }
             }
             .onAppear{
+                viewModel.getIdioms()
                 AppReviewRequest.requestReviewIfNeeded()
             }
             .preferredColorScheme(selectedScheme)

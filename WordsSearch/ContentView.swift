@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleMobileAds
 
 struct ContentView: View {
-    
+    @StateObject var storeVM = StoreVM()
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var viewModel: WordSearchViewModel
     @State private var gestureDirection: Direction?
@@ -25,7 +25,12 @@ struct ContentView: View {
    // private let adLoader = InterstitialAdLoader(adUnit: .InterstitialTest)
     @AppStorage("showAd") var showAd = 0
     
+    @AppStorage("premiumUser") var premiumUser: Bool = false
     
+    @AppStorage("totalGame") private var totalGameToday: Int = 0
+    @AppStorage("storedDate") private var storedDateString: String = ""
+    @State var exceededLimit: Bool = false
+        @State private var isSameDay: Bool = false
     
     var body: some View {
         ZStack {
@@ -117,6 +122,9 @@ struct ContentView: View {
                
             }
             .onAppear{
+                if !premiumUser{
+                    handleDateCheck()
+                }
                 if let category = categoryModel {
                     viewModel.updateWords(for: category.nameJson)
                     generateGrid()
@@ -129,13 +137,25 @@ struct ContentView: View {
                     showAd += 1
                 }
                 startTimer()
+                
             }
             .alert(isPresented: $showAlert) {
                         Alert(title: Text("Time's Up!"), message: Text("The 10 minutes are over."), dismissButton: .default(Text("OK")))
                     }
+            .sheet(isPresented: $exceededLimit, onDismiss: {
+                if !premiumUser{
+                    self.presentationMode.wrappedValue.dismiss()
+                }else{
+                    
+                }
+                
+            }, content: {
+                GoPremium()
+                    .environmentObject(storeVM)
+            })
             .displayConfetti(isActive: $viewModel.gameCompleted)
             .fullScreenCover(isPresented: $viewModel.gameCompleted) {
-                GameCompletedView(title: "Congratulations!" , description: "You have completed the game. What would you like to do next?" ,onNext: {
+                GameCompletedView(title: "congratulations" , description: "detailCongratulation" ,onNext: {
                                 viewModel.cleanSelected()
                                 if let category = categoryModel {
                                     
@@ -144,8 +164,11 @@ struct ContentView: View {
                                     timeRemaining = 600
                                     startTimer()
                                 }
+                    
                                 viewModel.gameCompleted = false
-                               // showGameCompleted = false
+                    if !premiumUser{
+                        handleDateCheck()
+                    }
                             }, onExit: {
                                 viewModel.cleanSelected()
                                 viewModel.gameCompleted = false
@@ -339,8 +362,41 @@ struct ContentView: View {
         }
     }
     
-    
-    
+    // Función para manejar la lógica de comprobación y almacenamiento de la fecha
+        private func handleDateCheck() {
+            let currentDate = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let currentDateString = dateFormatter.string(from: currentDate)
+
+            if storedDateString.isEmpty {
+                // No hay fecha almacenada, guardar la fecha actual
+                storedDateString = currentDateString
+                // Revisar conteo del mismo dia
+            } else {
+                // Hay una fecha almacenada, compararla con la fecha actual
+                if let storedDate = dateFormatter.date(from: storedDateString) {
+                    if storedDateString == currentDateString {
+                        storedDateString = currentDateString
+                        
+                        if totalGameToday >= 3 {
+                            exceededLimit = true
+                        }else{
+                          //  totalGameToday += 1
+                            exceededLimit = false
+                        }
+                        print("Mismo Dia -> \(totalGameToday)")
+                    }else{
+                        totalGameToday = 0
+                        storedDateString = currentDateString
+                        print("Otro Dia -> \(totalGameToday)")
+                    }
+                } else {
+                    storedDateString = currentDateString
+                    isSameDay = false
+                }
+            }
+        }
     
 }
 

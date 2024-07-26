@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WordleView: View {
+    @StateObject var storeVM = StoreVM()
     @StateObject var viewModel = WordleViewModel()
     @Environment(\.presentationMode) var presentationMode
         
@@ -26,17 +27,17 @@ struct WordleView: View {
                 }
                 .padding()
                 .onAppear{
-          //          viewModel.initializeGame()
+                  
                 }
             }
             .alert(isPresented: $viewModel.showTips) {
-                        Alert(title: Text("Tips"),
-                              message: Text("The category of the words is: \(viewModel.categoryTips)"),
-                              dismissButton: .default(Text("OK")))
-                    }
+                Alert(title: Text(LocalizedStringKey("tips")),
+                      message: Text(String(format: NSLocalizedString("categoryis", comment: ""), viewModel.categoryTips)),
+                      dismissButton: .default(Text("OK")))
+            }
             .displayConfetti(isActive: $viewModel.showAlert)
             .fullScreenCover(isPresented: $viewModel.showAlert) {
-                            GameCompletedView(title: "Congratulations!" , description: "You have completed the game. What would you like to do next?", onNext: {
+                            GameCompletedView(title: "congratulations" , description: "detailCongratulation", onNext: {
                                 viewModel.newGame()
                                 viewModel.showAlert = false
                                 
@@ -49,7 +50,7 @@ struct WordleView: View {
             .fullScreenCover(isPresented: $viewModel.showGameOverAlert) {
                             GameCompletedView(title: "Game Over" , description: "You've used all your attempts. The word was \(viewModel.targetWord).", onNext: {
                                 viewModel.newGame()
-                                viewModel.showAlert = false
+                                viewModel.showGameOverAlert = false
                                 
                             }, onExit: {
                                 viewModel.showAlert = false
@@ -57,6 +58,7 @@ struct WordleView: View {
                             })
                             .background(BackgroundClearView())
                         }
+            
 //            .alert(isPresented: $viewModel.showAlert) {
 //                        Alert(title: Text("Congratulations!"),
 //                              message: Text("You've guessed the word correctly."),

@@ -46,6 +46,14 @@
 "skip" = "Skip";
 "done" = "Done";
 "next" = "Next";
+"daily" = "Daily Challenge";
+"category" = "Select Category";
+
+"exit" = "Exit";
+"next" = "Next";
+
+"congratulations" = "Congratulations!";
+"detailCongratulation" = "You have completed the game. What would you like to do next?";
 
 "title1" = "Welcome to Word Explorer Puzzle!";
 "title2" = "How to Play";
@@ -54,3 +62,28 @@
 "description1" = "Discover the ultimate word search experience and sharpen your mind with fun and challenging puzzles";
 "description2" = "Simply swipe to connect letters and find hidden words in the grid. ";
 "description3" = "Enjoy new puzzles every day with our Daily Challenges. Explore various categories and improve your vocabulary with exciting themes.";
+
+
+/* No more Ads */
+"no_more_ads_title" = "No more Ads";
+"no_more_ads_description" = "No show more ads in the app";
+
+
+/* No Limits */
+"no_limits_title" = "No Limits";
+"no_limits_description" = "Unlimited games";
+
+/* Priority Support */
+"priority_support_title" = "Priority Support";
+"priority_support_description" = "Priority in technical support";
+
+"choise" = "Choose a plan";
+"suscribe" = "Subscribe Now";
+"restore" = "Restore Purchase";
+"manage" = "Manage Subscriptions";
+"subscription" = "Subscription";
+
+"tips" = "Tips";
+"categoryis" = "The category of the words is: %@";
+
+"unlimited" = "Unlimited full access";

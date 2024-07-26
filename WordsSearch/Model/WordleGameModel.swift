@@ -22,12 +22,14 @@ struct WordleGame {
     var guesses: [[Letter]]
     var currentGuess: [Letter]
     var maxAttempts: Int
+    var keyboardState: [Character: LetterState]
     
     init(targetWord: String, maxAttempts: Int = 6) {
         self.targetWord = targetWord
         self.guesses = []
         self.currentGuess = []
         self.maxAttempts = maxAttempts
+        self.keyboardState = [:]
     }
     
     mutating func addLetter(_ letter: Character) {
@@ -48,6 +50,16 @@ struct WordleGame {
         let result = checkGuess(currentGuess)
         guesses.append(result)
         currentGuess = []
+        
+        for letter in result {
+                    if let existingState = keyboardState[letter.character] {
+                        if letter.state == .correct || (letter.state == .misplaced && existingState != .correct) {
+                            keyboardState[letter.character] = letter.state
+                        }
+                    } else {
+                        keyboardState[letter.character] = letter.state
+                    }
+                }
     }
     
     func checkGuess(_ guess: [Letter]) -> [Letter] {

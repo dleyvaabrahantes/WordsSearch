@@ -30,7 +30,7 @@ struct KeyboardView: View {
                                 Text(key)
                                     .font(.system(size: 20, weight: .bold, design: .default))
                                     .frame(width: 30, height: 50)
-                                    .background(Color.blue.opacity(0.5))
+                                    .background(color(for: Character(key)))
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
                             }
@@ -62,6 +62,23 @@ struct KeyboardView: View {
                             .cornerRadius(8)
                     }
                 }
+            }
+        }
+    
+    func color(for character: Character) -> Color {
+            if let state = game.keyboardState[character] {
+                switch state {
+                case .correct:
+                    return Color.green
+                case .misplaced:
+                    return Color.yellow
+                case .incorrect:
+                    return Color.gray
+                case .unknown:
+                    return Color.clear
+                }
+            } else {
+                return Color.blue.opacity(0.5)
             }
         }
 }

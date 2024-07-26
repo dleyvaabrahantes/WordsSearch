@@ -1,56 +1,89 @@
-/* 
+/*
   Localizable.strings
   WordsSearch
 
   Created by David on 7/8/24.
   
 */
-"rate" = "Rate the app";
-"comments" = "Leave a comment";
-"terms" = "Terms of Use";
-"privacy" = "Privacy policy";
-"commentsheader" = "Comments";
-"opinion" = "Your opinion is very important";
-"follow" = "Follow";
-"social" = "Social Media";
-"share" = "Share with your friends";
+"rate" = "Valora la app";
+"comments" = "Déjanos un comentario";
+"terms" = "Términos de uso";
+"privacy" = "Política de privacidad";
+"commentsheader" = "Comentarios";
+"opinion" = "Tu opinión es muy importante";
+"follow" = "Síguenos";
+"social" = "Redes Sociales";
+"share" = "Comparte con tus amigos";
 "general" = "General";
-"style" = "Theme";
-"notifications" = "Notification";
+"style" = "Estilo";
+"notifications" = "Notificación";
 
-"settings" = "Settings";
-"home" = "Home";
-"homeTitle" = "Dashboard";
+"settings" = "Ajustes";
+"home" = "Inicio";
+"homeTitle" = "Tablero";
 
-"title" = "List Title";
-"nameList" = "Name List!";
-"color" = "List Color";
-"reminder" = "Remainder";
-"notification" = "Just Notification";
-"date" = "Reminder Date";
+"title" = "Título de la lista";
+"nameList" = "Nombre de la lista";
+"color" = "Color de la lista";
+"reminder" = "Recordatorio";
+"notification" = "Solo notificación";
+"date" = "Fecha del recordatorio";
 
-"lock" = "Lock";
-"unlock" = "Unlock";
+"lock" = "Bloquear";
+"unlock" = "Desbloquear";
 
-"edit" = "Edit List";
-"print" = "Print";
-"delete" = "Delete List";
+"edit" = "Editar lista";
+"print" = "Imprimir";
+"delete" = "Eliminar lista";
 
-"active" = "Active";
+"active" = "Activo";
 
-"completed" = "Completed";
-"hide" = "Hide Completed";
-"show" = "Show Completed";
+"completed" = "Completado";
+"hide" = "Ocultar completados";
+"show" = "Mostrar completados";
 
-"back" = "Back";
-"skip" = "Skip";
-"done" = "Done";
-"next" = "Next";
+"back" = "Atrás";
+"skip" = "Saltar";
+"done" = "Hecho";
+"next" = "Siguiente";
+"daily" = "Juego diario";
+"category" = "Selecciona categoría";
 
-"title1" = "Welcome to Word Explorer Puzzle!";
-"title2" = "How to Play";
-"title3" = "Daily Challenges and Categories";
+"exit" = "Salir";
+"next" = "Siguiente";
 
-"description1" = "Discover the ultimate word search experience and sharpen your mind with fun and challenging puzzles";
-"description2" = "Simply swipe to connect letters and find hidden words in the grid. ";
-"description3" = "Enjoy new puzzles every day with our Daily Challenges. Explore various categories and improve your vocabulary with exciting themes.";
+"congratulations" = "Felicidades!";
+"detailCongratulation" = "Has completado el juego. Que te gustaría hacer después?";
+
+"title1" = "¡Bienvenido a Word Explorer Puzzle!";
+"title2" = "Cómo jugar";
+"title3" = "Desafíos diarios y categorías";
+
+"description1" = "Descubre la mejor experiencia de búsqueda de palabras y afila tu mente con rompecabezas divertidos y desafiantes";
+"description2" = "Simplemente desliza para conectar letras y encontrar palabras ocultas en la cuadrícula.";
+"description3" = "Disfruta de nuevos rompecabezas cada día con nuestros Desafíos Diarios. Explora varias categorías y mejora tu vocabulario con emocionantes temas.";
+
+
+/* No more Ads */
+"no_more_ads_title" = "Sin más anuncios";
+"no_more_ads_description" = "No mostrar más anuncios en la aplicación";
+
+
+/* No Limits */
+"no_limits_title" = "Sin límites";
+"no_limits_description" = "Juegos ilimitados";
+
+/* Priority Support */
+"priority_support_title" = "Soporte prioritario";
+"priority_support_description" = "Prioridad en soporte técnico";
+
+"choise" = "Escoge un plan";
+"suscribe" = "Suscribirse ahora";
+"restore" = "Restaurar compra";
+"manage" = "Manejar suscripción";
+"subscription" = "Subscripcion";
+
+"tips" = "Pista";
+"categoryis" = "La categoría de la palabra es: %@";
+
+"unlimited" = "Acceso Completo Ilimitado";

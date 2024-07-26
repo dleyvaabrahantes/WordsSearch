@@ -18,11 +18,11 @@ struct FeatureView: View {
                 .padding(8)
                 .padding(.horizontal)
             VStack(alignment: .leading){
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                Text(description)
+                Text(LocalizedStringKey(description))
                     .font(.caption)
                     .foregroundColor(.primary)
             }

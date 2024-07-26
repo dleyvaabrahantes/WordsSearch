@@ -1,0 +1,16 @@
+{
+  "category": "Animales",
+  "words": [
+    "León", "Elefante", "Tigre", "Perro", "Gato", "Delfín", "Águila", "Caballo", "Pingüino", "Tiburón",
+    "Jirafa", "Oso", "Lobo", "Zorro", "Conejo", "Ciervo", "Mono", "Cebra", "Canguro", "Leopardo",
+    "Hipopótamo", "Cocodrilo", "Koala", "Panda", "Ballena", "Ardilla", "Rinoceronte", "Bisonte", "Búfalo", "Camaleón",
+    "Guepardo", "Chimpancé", "Cangrejo", "Burro", "Pato", "Anguila", "Halcón", "Flamenco", "Rana", "Cabra",
+    "Pez dorado", "Ganso", "Hámster", "Azor", "Erizo", "Colibrí", "Iguana", "Medusa", "Lémur", "Lagartija",
+    "Llama", "Langosta", "Suricata", "Topo", "Mangosta", "Alce", "Narval", "Avestruz", "Nutria", "Búho",
+    "Loro", "Pavo real", "Pelícano", "Puercoespín", "Codorniz", "Mapache", "Reno", "Salmón", "Caballito de mar", "Foca",
+    "Mofeta", "Perezoso", "Caracol", "Serpiente", "Gorrión", "Calamar", "Estrella de mar", "Cigüeña", "Cisne", "Tapir",
+    "Tortuga", "Tucán", "Atún", "Pavo", "Tortuga marina", "Buitre", "Morsa", "Comadreja", "Pájaro carpintero", "Yak",
+    "Cebú", "Antílope", "Armadillo", "Babuino", "Tejón", "Murciélago", "Castor", "Abeja", "Escarabajo", "Jabalí"
+  ]
+}
+

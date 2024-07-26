@@ -10,7 +10,7 @@ import CoreData
 import MessageUI
 
 struct SettingsView: View {
- //   @StateObject var iapModel: PaywallViewModel = .init()
+    @StateObject var storeVM = StoreVM()
     @State var result: Result<MFMailComposeResult, Error>? = nil
     @State var isShowingMailView = false
     @State var showAlert = false
@@ -101,6 +101,17 @@ struct SettingsView: View {
                         Text(LocalizedStringKey("social"))
                     }
                     Section {
+                        Button {
+                            showPayment.toggle()
+                        } label: {
+                            Text(LocalizedStringKey("manage"))
+                                
+                        }
+                    }header: {
+                        
+                        Text(LocalizedStringKey("subscription"))
+                    }
+                    Section {
                         HStack {
                             Image(systemName: "paintbrush.fill")
                             Button {
@@ -172,6 +183,12 @@ struct SettingsView: View {
                     ShareView(showShareView: $showShare)
                 }
                 .foregroundStyle(.primary)
+                .sheet(isPresented: $showPayment, content: {
+                    GoPremium()
+                        .environmentObject(storeVM)
+//                    PaywallView()
+//                        .environmentObject(storeVM)
+                })
             .navigationTitle(LocalizedStringKey("settings"))
                 DLMOde(colorScheme: $colorScheme, showAppareance: $showAppareance, appearanceMode: $appearanceMode)
                     .ignoresSafeArea()
