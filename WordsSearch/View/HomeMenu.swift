@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import StoreKit
 import GoogleMobileAds
+import GameKit
 
 struct HomeMenu: View {
     @State private var pulsate = false
@@ -30,7 +31,7 @@ struct HomeMenu: View {
     }
     
     @AppStorage("systemTheme") private var systemTheme: Int = AppareanceMode.allCases.first!.rawValue
-    let adUnitId: AdUnitBanner = .bannerTest
+    let adUnitId: AdUnitBanner = .banner
     @State var height: CGFloat = 50 //Height of ad
     @State var width: CGFloat = 320 //Width of ad
     @State var adPosition: AdPosition = .bottom
@@ -39,18 +40,18 @@ struct HomeMenu: View {
         NavigationStack {
             ZStack {
                 LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.5), Color.purple.opacity(0.5)]),
-                                               startPoint: .topLeading,
-                                               endPoint: .bottomTrailing)
-                                    .edgesIgnoringSafeArea(.all)
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                .edgesIgnoringSafeArea(.all)
                 VStack{
-                   // Spacer()
+                    // Spacer()
                     VStack(alignment: .center) {
-                     
+                        
                         Image("word")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 180, height: 180)
-                          // .padding(.top, 10)
+                        // .padding(.top, 10)
                         
                         Image("letter")
                             .resizable()
@@ -58,24 +59,24 @@ struct HomeMenu: View {
                             .frame(width: 250, height: 250)
                             .offset(y: -20)
                         
-                }
-                                           Spacer()
+                    }
+                    Spacer()
                     VStack(spacing: 20){
                         NavigationLink {
                             
-                                ContentView(categoryModel: CategoryModel(name: "Daily", level: .easy, nameJson: "daily"))
+                            ContentView(categoryModel: CategoryModel(name: "Daily", level: .easy, nameJson: "daily"))
                                 .environmentObject(viewModel)
-                                    .navigationTitle("Word Search")
-                                    .navigationBarTitleDisplayMode(.inline)
+                                .navigationTitle("Word Search")
+                                .navigationBarTitleDisplayMode(.inline)
                             
                         } label: {
                             Text(LocalizedStringKey("daily"))
                                 .yellowTextStyle()
-                                
+                            
                         }
                         
                         NavigationLink {
-                           ListCategoryView()
+                            ListCategoryView()
                                 .environmentObject(viewModel)
                                 .navigationTitle(LocalizedStringKey("category"))
                                 .navigationBarTitleDisplayMode(.inline)
@@ -85,7 +86,7 @@ struct HomeMenu: View {
                         }
                         
                         NavigationLink {
-                           WordleView()
+                            WordleView()
                             //    .environmentObject(viewModel)
                                 .navigationTitle("Wordle Game")
                                 .navigationBarTitleDisplayMode(.inline)
@@ -111,28 +112,38 @@ struct HomeMenu: View {
                     }
                     Spacer()
                     
-//                    Button {
-//                        
-//                    } label: {
-//                        Text("Daily Puzzle")
-//                    }
-//                    .buttonStyle(YellowButtonStyle())
-//                    
-//                    Button {
-//                        
-//                    } label: {
-//                        Text("Settings")
-//                    }
-//                    .buttonStyle(YellowButtonStyle())
-//                    .padding(.bottom,100)
+                    //                    Button {
+                    //
+                    //                    } label: {
+                    //                        Text("Daily Puzzle")
+                    //                    }
+                    //                    .buttonStyle(YellowButtonStyle())
+                    //
+                    //                    Button {
+                    //
+                    //                    } label: {
+                    //                        Text("Settings")
+                    //                    }
+                    //                    .buttonStyle(YellowButtonStyle())
+                    //                    .padding(.bottom,100)
                 }
             }
             .onAppear{
+                authenticatePlayer()
                 viewModel.getIdioms()
                 AppReviewRequest.requestReviewIfNeeded()
             }
             .preferredColorScheme(selectedScheme)
             .toolbar{
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        HeaderBoard()
+                            .navigationBarHidden(true)
+                    } label: {
+                        Image("trophy")
+                            .foregroundColor(.white)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SettingsView()
@@ -141,13 +152,10 @@ struct HomeMenu: View {
                             .font(.title3)
                             .foregroundColor(.primary)
                     }
-
-
                 }
+                
             }
         }
-        
-        
     }
     
     func setFrame() {
@@ -163,6 +171,23 @@ struct HomeMenu: View {
         self.width = 320
         self.height = 50
     }
+    
+    func authenticatePlayer() {
+        GKLocalPlayer.local.authenticateHandler = { viewController, error in
+            if let viewController = viewController {
+                // Show the login view controller
+                // self.present(viewController, animated: true)
+            } else if error != nil {
+                // Handle the error
+                print(error?.localizedDescription ?? "")
+            } else {
+                // Player is already authenticated
+                print("Authenticated as \(GKLocalPlayer.local.displayName)")
+            }
+        }
+    }
+    
+    
 }
 
 #Preview {

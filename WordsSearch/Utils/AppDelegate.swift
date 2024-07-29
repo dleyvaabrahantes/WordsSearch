@@ -8,6 +8,7 @@
 import Foundation
 import GoogleMobileAds
 import UIKit
+import GameKit
 
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -18,4 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         return true
     }
+    
+    
 }

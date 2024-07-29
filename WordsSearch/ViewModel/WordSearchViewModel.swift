@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import SwiftUI
+import GameKit
 
 class WordSearchViewModel: ObservableObject {
     var listCategories: [CategoryModel] = [              CategoryModel(name: "Daily", level: .easy, nameJson: "daily"),
@@ -46,20 +47,48 @@ class WordSearchViewModel: ObservableObject {
         if words.contains(selectedWord) {
             foundWords.insert(selectedWord)
             foundCells.formUnion(selectedCells)
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred() 
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             playSound()
         }
         
         if foundWords.count == words.count {
-                gameCompleted = true
-           
+            Task {
+                do {
+                    gameCompleted = true
+                    try await submitScore(words.count)
+                    
+                } catch {
+                    print("Failed to submit score: \(error)")
+                }
             }
+        }
     }
     
     func cleanSelected(){
         selectedCells = []
         foundWords = []
         foundCells = []
+    }
+    
+    //Add score
+    func submitScore(_ score: Int) async throws {
+        // Reemplaza con tu leaderboard ID
+        let leaderboardID = "com.word.leaderboards"
+        let player = GKLocalPlayer.local
+        
+        // Cargar la lista de leaderboards
+        let leaderboards = try await GKLeaderboard.loadLeaderboards(IDs: [leaderboardID])
+        guard let leaderboard = leaderboards.first else { return }
+        
+        // Cargar las entradas del jugador
+        let (playerEntry, _, _) = try await leaderboard.loadEntries(for: .global, timeScope: .allTime, range: NSRange(location: 1, length: 1))
+        
+        // Calcular la nueva puntuación
+        let currentScore = playerEntry?.score ?? 0
+        let newScore = currentScore + score
+        
+        // Enviar la nueva puntuación al leaderboard
+        try await GKLeaderboard.submitScore(newScore, context: 0, player: player, leaderboardIDs: [leaderboardID])
     }
     
     func updateWords(for category: String) {
